@@ -1,5 +1,5 @@
-import React from 'react'
-import ProFastLogo from "../Home/ui/ProfastLogo";
+import React from "react";
+import ProFastLogo from "../ui/ProfastLogo";
 
 const Footer = () => {
   return (
@@ -54,4 +54,4 @@ const Footer = () => {
   );
 };
 
-export default Footer
+export default Footer;

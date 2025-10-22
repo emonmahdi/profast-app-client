@@ -3,6 +3,10 @@
 @import "tailwindcss"; 
 @plugin "daisyui";
 
+body{
+    background-color: #222831;
+}
+
 .custom-font {
     font-family: "Urbanist", sans-serif;
     font-optical-sizing: auto;

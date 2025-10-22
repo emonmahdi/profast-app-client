@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from "react-router";
-import ProFastLogo from "../Home/ui/ProfastLogo";
+import ProFastLogo from "../ui/ProfastLogo";
 
 const Navbar = () => {
   const navItems = (
