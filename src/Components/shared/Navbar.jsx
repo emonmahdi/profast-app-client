@@ -1,6 +1,7 @@
-import React from 'react'
-import { NavLink } from "react-router";
+import React from "react";
+import { Link, NavLink } from "react-router";
 import ProFastLogo from "../ui/ProfastLogo";
+import { AuthContext } from "../../context/AuthContext";
 
 const Navbar = () => {
   const navItems = (
@@ -50,10 +51,15 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        <Link to="/login" className="me-3">
+          <a className="btn">Login</a>
+        </Link>
+        <Link to="/register">
+          <a className="btn">Register</a>
+        </Link>
       </div>
     </div>
   );
 };
 
-export default Navbar
+export default Navbar;

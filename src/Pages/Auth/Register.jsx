@@ -12,20 +12,51 @@ const Register = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+        {/* Name Input */}
         <label className="label">Name</label>
-        <input type="text" className="input" {...register('name', {required: true})} placeholder="Name" />
+        <input
+          type="text"
+          className="input"
+          {...register("name", { required: true })}
+          placeholder="Name"
+        />
+        {errors.email?.type === "required" && (
+          <p className="text-red-600">Name is required</p>
+        )}
 
-        {errors.email?.type === 'required' && <p className="text-red-600">Name is required</p> }
+        {/* Email input */}
         <label className="label">Email</label>
-        <input type="email" className="input" {...register('email', {required: true})} placeholder="Email" />
-        {errors.email?.type === 'required' && <p className="text-red-600">Email is required</p> }
+        <input
+          type="email"
+          className="input"
+          {...register("email", { required: true })}
+          placeholder="Email"
+        />
+        {errors.email?.type === "required" && (
+          <p className="text-red-600">Email is required</p>
+        )}
 
+        {/* Password Input */}
         <label className="label">Password</label>
-        <input type="password" className="input" {...register('password', {required: true, minLength:6}) } placeholder="Password" />
-        {errors.password?.type === 'required' && <p className="text-red-600">password is required</p>}
-        {errors.password?.type === 'minLength' && <p className="text-red-600"> password must be in 6 or larger number</p>}
+        <input
+          type="password"
+          className="input"
+          {...register("password", { required: true, minLength: 6 })}
+          placeholder="Password"
+        />
+        {errors.password?.type === "required" && (
+          <p className="text-red-600">password is required</p>
+        )}
+        {errors.password?.type === "minLength" && (
+          <p className="text-red-600">
+            {" "}
+            password must be in 6 or larger number
+          </p>
+        )}
 
-        <button type="submit" className="btn btn-neutral mt-4">Register</button>
+        <button type="submit" className="btn btn-neutral mt-4">
+          Register
+        </button>
       </fieldset>
     </form>
   );
