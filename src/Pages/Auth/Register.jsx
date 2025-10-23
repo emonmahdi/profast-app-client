@@ -1,0 +1,34 @@
+import React from "react";
+import { useForm } from "react-hook-form";
+
+
+const Register = () => {
+    const {register, handleSubmit, formState: {errors}} = useForm();
+
+    const onSubmit = (data) => {
+        console.log(data)
+    }
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+        <label className="label">Name</label>
+        <input type="text" className="input" {...register('name', {required: true})} placeholder="Name" />
+
+        {errors.email?.type === 'required' && <p className="text-red-600">Name is required</p> }
+        <label className="label">Email</label>
+        <input type="email" className="input" {...register('email', {required: true})} placeholder="Email" />
+        {errors.email?.type === 'required' && <p className="text-red-600">Email is required</p> }
+
+        <label className="label">Password</label>
+        <input type="password" className="input" {...register('password', {required: true, minLength:6}) } placeholder="Password" />
+        {errors.password?.type === 'required' && <p className="text-red-600">password is required</p>}
+        {errors.password?.type === 'minLength' && <p className="text-red-600"> password must be in 6 or larger number</p>}
+
+        <button type="submit" className="btn btn-neutral mt-4">Register</button>
+      </fieldset>
+    </form>
+  );
+};
+
+export default Register;

@@ -28,9 +28,12 @@ const Testimonial = () => {
     <section className="py-16 px-6 md:px-12 lg:px-20 bg-gradient-to-b from-[#0a1510] to-[#0f1b14] relative overflow-hidden">
       {/* Section Header */}
       <div className="max-w-7xl mx-auto text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-white">What Our Clients Say</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-white">
+          What Our Clients Say
+        </h2>
         <p className="text-gray-300 mt-3 max-w-2xl mx-auto">
-          Trusted by businesses nationwide — real feedback from our happy partners.
+          Trusted by businesses nationwide — real feedback from our happy
+          partners.
         </p>
       </div>
 
@@ -42,15 +45,22 @@ const Testimonial = () => {
         centeredSlides={true}
         slidesPerView={1.1}
         spaceBetween={20}
+        className="testimonial-swiper"
         pagination={{ el: ".testimonial-pagination", clickable: true }}
-        navigation={{ prevEl: ".testimonial-prev", nextEl: ".testimonial-next" }}
+        navigation={{
+          prevEl: ".testimonial-prev",
+          nextEl: ".testimonial-next",
+        }}
         breakpoints={{
           768: { slidesPerView: 2.1 },
           1024: { slidesPerView: 3 },
         }}
       >
         {testimonials.map((t) => (
-          <SwiperSlide key={t.id} className="transition-all duration-500 ease-in-out">
+          <SwiperSlide
+            key={t.id}
+            className="transition-all duration-500 ease-in-out"
+          >
             <div className="testimonial-card p-6 rounded-2xl bg-[#18221c] border border-transparent shadow-lg transition">
               <div className="flex items-center gap-4">
                 <img
@@ -85,19 +95,24 @@ const Testimonial = () => {
 
       {/* Highlight Active Card Effect */}
       <style>{`
-        .swiper-slide {
-          opacity: 0.4;
-          transform: scale(0.9);
-        }
-        .swiper-slide-active {
-          opacity: 1 !important;
-          transform: scale(1.05) !important;
-        }
-        .swiper-slide-active .testimonial-card {
-          border: 1px solid #CAEB66;
-          box-shadow: 0px 0px 30px rgba(202, 235, 102, 0.3);
-        }
-      `}</style>
+  .testimonial-swiper .swiper-slide {
+    opacity: 0.4;
+    transform: scale(0.6);
+    transition: all 0.5s ease;
+  }
+  .testimonial-swiper .swiper-slide-active {
+    opacity: 1 !important;
+    transform: scale(1.0) !important;
+  }
+  .testimonial-swiper .testimonial-card {
+    border: 1px solid transparent;
+    transition: all 0.5s ease;
+  }
+  .testimonial-swiper .swiper-slide-active .testimonial-card {
+    border-color: #CAEB66;
+    box-shadow: 0px 0px 30px rgba(202, 235, 102, 0.3);
+  }
+`}</style>
     </section>
   );
 };
