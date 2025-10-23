@@ -5,6 +5,7 @@ import ClientLogoSlider from "./ClientLogoSlider";
 import Benefits from "./Benifits";
 import Merchant from "./Merchant";
 import HowItWorks from "./HowItWorks";
+import Testimonial from "./Testimonial";
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
       <ClientLogoSlider />
       <Benefits />
       <Merchant />
+      <Testimonial />
     </div>
   );
 };
