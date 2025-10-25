@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, NavLink } from "react-router";
 import ProFastLogo from "../ui/ProfastLogo";
-import { AuthContext } from "../../context/AuthContext";
 import { useAuth } from "../../hooks/useAuth";
 
 const Navbar = () => {
@@ -11,12 +10,16 @@ const Navbar = () => {
       <NavLink to={`/`} className={"me-3"}>
         Home
       </NavLink>
+      <NavLink to={`/sendParcel`} className={"me-3"}>
+        Send A Parcel
+      </NavLink>
       <NavLink to={`/coverage`} className={"me-3"}>
         Coverage
       </NavLink>
       <NavLink to={`/about`} className={"me-3"}>
         About
       </NavLink>
+      {user && <NavLink to="/dashboard">Dashboard</NavLink>}
     </>
   );
 
