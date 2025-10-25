@@ -1,11 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../../context/AuthContext";
 import { useAuth } from "../../hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "./SocialLogin";
 
 const Login = () => {
+  const { signInUser } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location?.state || "/";
   const {
     register,
     handleSubmit,
@@ -14,10 +17,14 @@ const Login = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    signInUser(data.email, data.password).then((result) => {
+      console.log(result);
+      navigate(from);
+    });
   };
 
-  const { email } = useAuth();
-  console.log(email);
+  // const { email } = useAuth();
+  // console.log(email);
 
   return (
     <>
