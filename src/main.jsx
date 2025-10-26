@@ -6,13 +6,19 @@ import { RouterProvider } from "react-router";
 import { router } from "./router/router.jsx";
 import AuthProvider from "./context/AuthProvider.jsx";
 import "leaflet/dist/leaflet.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// Create a client
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <div className="custom-font">
-        <RouterProvider router={router} />
-      </div>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <div className="custom-font">
+          <RouterProvider router={router} />
+        </div>
+      </AuthProvider>
+    </QueryClientProvider>
   </StrictMode>
 );
