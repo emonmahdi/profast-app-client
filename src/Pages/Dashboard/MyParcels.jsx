@@ -3,10 +3,14 @@ import React from "react";
 import { useAuth } from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const MyParcels = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+
+  const navigate = useNavigate();
+
   // const queryClient = useQueryClient();
 
   const {
@@ -48,6 +52,11 @@ const MyParcels = () => {
         }
       }
     });
+  };
+
+  // Handle Payment
+  const handlePay = (id) => {
+    navigate(`/dashboard/payment/${id}`);
   };
 
   // ✅ loading state
@@ -98,7 +107,12 @@ const MyParcels = () => {
                   <button className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
                     View
                   </button>
-                  <button className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                  <button
+                    onClick={() => {
+                      handlePay(parcel._id);
+                    }}
+                    className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                  >
                     Pay
                   </button>
                   <button
