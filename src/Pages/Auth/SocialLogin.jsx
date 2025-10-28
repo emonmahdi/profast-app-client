@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
 
 const SocialLogin = () => {
   const { signInWithGoogle } = useAuth();
@@ -8,10 +9,23 @@ const SocialLogin = () => {
   const navigate = useNavigate();
   const from = location?.state || "/";
 
+  const axiosInstance = useAxios();
+
   const handleGoogleLogin = () => {
     signInWithGoogle()
       .then((result) => {
+        const user = result.user;
         console.log(result.user);
+        const userInfo = {
+          email: user?.email,
+          role: "user",
+          created_at: new Date().toISOString(),
+          last_log_at: new Date().toISOString(),
+        };
+
+        const res = axiosInstance.post("/users", userInfo);
+        console.log("update the data save: ", res);
+
         navigate(from);
       })
       .catch((err) => {
