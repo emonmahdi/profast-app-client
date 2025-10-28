@@ -1,6 +1,13 @@
 import React from "react";
 import { Link, Outlet } from "react-router";
 import ProFastLogo from "../Components/ui/ProfastLogo";
+import { HiOutlineViewGrid } from "react-icons/hi";
+import {
+  FaBoxOpen,
+  FaMoneyCheckAlt,
+  FaMapMarkedAlt,
+  FaUserEdit,
+} from "react-icons/fa";
 
 const DashboardLayout = () => {
   return (
@@ -32,28 +39,55 @@ const DashboardLayout = () => {
           </div>
           <div className="mx-2 flex-1 px-2">Dashboard</div>
         </div>
+
         {/* Page content here */}
         <div className="p-8">
           <Outlet />
         </div>
       </div>
+
+      {/* Sidebar */}
       <div className="drawer-side">
         <label
           htmlFor="my-drawer-3"
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-base-200 min-h-full w-80 p-4">
-          {/* Sidebar content here */}
-          <div className="mb-4">
+        <ul className="menu bg-base-200 min-h-full w-80 p-4 text-base">
+          {/* Logo */}
+          <div className="mb-6">
             <ProFastLogo />
           </div>
+
+          {/* Menu Items */}
           <li>
-            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/dashboard" className="flex items-center gap-2">
+              <HiOutlineViewGrid /> Dashboard
+            </Link>
           </li>
           <li>
-            <Link to="/dashboard/myParcels">My Parcels</Link>
-          </li> 
+            <Link to="/dashboard/myParcels" className="flex items-center gap-2">
+              <FaBoxOpen /> My Parcels
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/dashboard/paymentHistory"
+              className="flex items-center gap-2"
+            >
+              <FaMoneyCheckAlt /> Payment History
+            </Link>
+          </li>
+          <li>
+            <Link to="/dashboard/track" className="flex items-center gap-2">
+              <FaMapMarkedAlt /> Track a Package
+            </Link>
+          </li>
+          <li>
+            <Link to="/dashboard/profile" className="flex items-center gap-2">
+              <FaUserEdit /> Update Profile
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
@@ -61,5 +95,3 @@ const DashboardLayout = () => {
 };
 
 export default DashboardLayout;
-
- 
