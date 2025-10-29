@@ -5,6 +5,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  console.log("User all data", user);
   const navItems = (
     <>
       <NavLink to={`/`} className={"me-3"}>
@@ -18,6 +19,9 @@ const Navbar = () => {
       </NavLink>
       <NavLink to={`/about`} className={"me-3"}>
         About
+      </NavLink>
+      <NavLink to={`/beARider`} className={"me-3"}>
+        Be A Rider
       </NavLink>
       {user && <NavLink to="/dashboard">Dashboard</NavLink>}
     </>
@@ -59,9 +63,9 @@ const Navbar = () => {
             {navItems}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">
+        <span className="btn btn-ghost text-xl">
           <ProFastLogo></ProFastLogo>
-        </a>
+        </span>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
