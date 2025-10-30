@@ -17,24 +17,52 @@ const AuthProvider = ({ children }) => {
 
   const googleProvider = new GoogleAuthProvider();
 
-  const createUser = (email, password) => {
+  const createUser = async (email, password) => {
     setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
+    // return createUserWithEmailAndPassword(auth, email, password);
+
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      return result;
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const signInUser = (email, password) => {
+  const signInUser = async (email, password) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      return result;
+    } finally {
+      setLoading(false);
+    }
+    // return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const signInWithGoogle = () => {
+  const signInWithGoogle = async () => {
     setLoading(true);
-    return signInWithPopup(auth, googleProvider);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      return result;
+    } finally {
+      setLoading(false);
+    }
+    // return signInWithPopup(auth, googleProvider);
   };
 
-  const updateUserProfile = (profileInfo) => {
+  const updateUserProfile = async (profileInfo) => {
     setLoading(true);
-    return updateProfile(auth.currentUser, profileInfo);
+    try {
+      await updateProfile(auth.currentUser, profileInfo);
+    } finally {
+      setLoading(false);
+    }
+    // return updateProfile(auth.currentUser, profileInfo);
   };
 
   useEffect(() => {
@@ -46,9 +74,14 @@ const AuthProvider = ({ children }) => {
     return () => unSubscribe();
   }, []);
 
-  const logOut = () => {
+  const logOut = async () => {
     setLoading(true);
-    return signOut(auth);
+    try {
+      await signOut(auth);
+    } finally {
+      setLoading(false);
+    }
+    // return signOut(auth);
   };
 
   const authInfo = {
