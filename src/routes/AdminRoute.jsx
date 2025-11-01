@@ -1,0 +1,23 @@
+import React from 'react'
+import { useAuth } from '../hooks/useAuth'
+import useUserRole from '../hooks/useUserRole';
+import { Navigate } from 'react-router';
+
+const AdminRoute = ({children}) => {
+    const {user,loading} = useAuth();
+    const {role, roleLoading} = useUserRole();
+
+
+    if(loading || roleLoading){
+    return <p>Loading Admin.............</p>
+    }
+
+    if(!user || role !== "admin"){
+      return <Navigate state={{from: location.pathname}} to="/forbidden" />
+    }
+    
+
+    return children
+}
+
+export default AdminRoute
