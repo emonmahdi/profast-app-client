@@ -1,68 +1,125 @@
 import React from "react";
-import { useAuth } from "../../../hooks/useAuth";
-import { FaEnvelope, FaUserCircle } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import {
+  FaMotorcycle,
+  FaCheckCircle,
+  FaShippingFast,
+  FaBoxOpen,
+} from "react-icons/fa";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-const DashboardAdmin = () => {
-  const { user } = useAuth();
-  return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Dashboard Header */}
-      <header className="bg-white shadow-md p-2 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-gray-800">
-          Admin Dashboard
-        </h1>
-        <p className="text-gray-500 text-sm">
-          Welcome,{" "}
-          <span className="font-medium text-gray-700">
-            {user?.displayName || "Guest"}
-          </span>
-        </p>
-      </header>
-
-      {/* Main Content */}
-      <main className="flex-grow flex items-center justify-center p-6">
-        <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-lg">
-          <div className="flex flex-col items-center">
-            {/* Avatar */}
-            <FaUserCircle className="text-gray-400 text-8xl mb-4" />
-
-            {/* User Info */}
-            <h2 className="text-2xl font-semibold text-gray-800 mb-1">
-              {user?.displayName || "Guest User"}
-            </h2>
-            <div className="flex items-center gap-2 text-gray-600 mb-4">
-              <FaEnvelope className="text-gray-500" />
-              <p>{user?.email || "No email available"}</p>
-            </div>
-
-            {/* Divider */}
-            <div className="w-full border-t border-gray-200 my-4"></div>
-
-            {/* Account Info */}
-            <div className="text-center space-y-2">
-              <p className="text-sm text-gray-500">
-                <span className="font-medium text-gray-700">Role:</span> User
-              </p>
-              <p className="text-sm text-gray-500">
-                <span className="font-medium text-gray-700">Joined:</span>{" "}
-                {new Date().toLocaleDateString()}
-              </p>
-            </div>
-
-            {/* Edit Profile Button */}
-            <button className="mt-6 px-5 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition">
-              Edit Profile
-            </button>
-          </div>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-white text-center text-gray-400 text-sm py-4 border-t">
-        © {new Date().getFullYear()} Your Company. All rights reserved.
-      </footer>
-    </div>
-  );
+const COLORS = {
+  not_collected: "#F87171", // red-400
+  in_transit: "#FBBF24", // yellow-400
+  rider_assigned: "#60A5FA", // blue-400
+  delivered: "#34D399", // green-400
 };
 
-export default DashboardAdmin;
+const statusIcons = {
+  rider_assigned: <FaMotorcycle className="text-4xl text-info" />,
+  delivered: <FaCheckCircle className="text-4xl text-success" />,
+  in_transit: <FaShippingFast className="text-4xl text-warning" />,
+  not_collected: <FaBoxOpen className="text-4xl text-error" />,
+};
+
+const statusLabels = {
+  rider_assigned: "Assigned to Rider",
+  delivered: "Delivered",
+  in_transit: "In Transit",
+  not_collected: "Not Collected",
+};
+
+export default function AdminDashboard() {
+  const axiosSecure = useAxiosSecure();
+  const {
+    data: deliveryStatus = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["parcelStatusCount"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/parcels/delivery/status-count");
+      return res.data;
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 1,
+  });
+
+  const processedPieData = deliveryStatus.map((item) => ({
+    name: statusLabels[item.status] || item.status,
+    value: item.count,
+    status: item.status,
+  }));
+
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center min-h-[70vh]">
+        <span className="loading loading-spinner loading-lg text-primary"></span>
+      </div>
+    );
+
+  if (isError)
+    return (
+      <div className="text-center text-red-600 mt-10">
+        Error loading data: {error.message}
+      </div>
+    );
+
+  return (
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-6">Parcel Delivery Summary</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {deliveryStatus.map(({ count, status }) => (
+          <div
+            key={status}
+            className="card bg-base-100 shadow-md border border-base-200 flex flex-col items-center justify-center p-6"
+          >
+            {statusIcons[status] || <FaBoxOpen className="text-4xl" />}
+            <h2 className="text-lg font-semibold mt-3 text-center">
+              {statusLabels[status] || status}
+            </h2>
+            <p className="text-4xl font-extrabold text-primary mt-2">{count}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* pie chart */}
+      <div className="card bg-base-100 shadow-md p-4 mt-4">
+        <h2 className="text-xl font-bold mb-4">Delivery Status Breakdown</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie
+              data={processedPieData}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={100}
+              label={({ name, percent }) =>
+                `${name} (${(percent * 100).toFixed(0)}%)`
+              }
+            >
+              {processedPieData.map((entry) => (
+                <Cell
+                  key={`cell-${entry.status}`}
+                  fill={COLORS[entry.status] || "#A78BFA"}
+                />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend verticalAlign="bottom" height={36} />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+}
