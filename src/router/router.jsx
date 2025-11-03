@@ -22,6 +22,12 @@ import ActiveRiders from "../Pages/Dashboard/ActiveRiders";
 import MakeAdmin from "../Pages/Dashboard/MakeAdmin";
 import AdminRoute from "../routes/AdminRoute";
 import Forbidden from "../Pages/Forbidden";
+import AssignRider from "../Pages/Dashboard/AssignRider";
+import PendingDeliveries from "../Pages/Dashboard/PendingDeliveries";
+import RiderRoute from "../routes/RiderRoute";
+import CompleteDeliveries from "../Pages/Dashboard/CompleteDeliveries";
+import MyEarnings from "../Pages/Dashboard/MyEarnings";
+import DashboardHome from "../Pages/Dashboard/DashboardHome/DashboardHome";
 
 export const router = createBrowserRouter([
   {
@@ -88,6 +94,10 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
+        index: true,
+        Component: DashboardHome,
+      },
+      {
         path: "myParcels",
         Component: MyParcels,
       },
@@ -100,7 +110,7 @@ export const router = createBrowserRouter([
         Component: PaymentHistory,
       },
       {
-        path: "pendingRiders", 
+        path: "pendingRiders",
         element: (
           <AdminRoute>
             <PendingRiders />
@@ -108,7 +118,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "activeRiders", 
+        path: "activeRiders",
         element: (
           <AdminRoute>
             <ActiveRiders />
@@ -125,6 +135,39 @@ export const router = createBrowserRouter([
           <AdminRoute>
             <MakeAdmin></MakeAdmin>
           </AdminRoute>
+        ),
+      },
+      {
+        path: "assign-rider",
+        element: (
+          <AdminRoute>
+            <AssignRider />
+          </AdminRoute>
+        ),
+      },
+      // Rider Route
+      {
+        path: "pending-deliveries",
+        element: (
+          <RiderRoute>
+            <PendingDeliveries />
+          </RiderRoute>
+        ),
+      },
+      {
+        path: "complete-deliveries",
+        element: (
+          <RiderRoute>
+            <CompleteDeliveries />
+          </RiderRoute>
+        ),
+      },
+      {
+        path: "my-earnings",
+        element: (
+          <RiderRoute>
+            <MyEarnings />
+          </RiderRoute>
         ),
       },
     ],

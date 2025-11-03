@@ -9,6 +9,8 @@ import {
   FaUserEdit,
   FaMotorcycle,
   FaUserClock,
+  FaClock,
+  FaCheckCircle,
 } from "react-icons/fa";
 import useUserRole from "../hooks/useUserRole";
 
@@ -93,6 +95,7 @@ const DashboardLayout = () => {
               <FaUserEdit /> Update Profile
             </Link>
           </li>
+          {/* Admin Routes */}
           {!roleLoading && role === "admin" && (
             <>
               <li>
@@ -101,6 +104,14 @@ const DashboardLayout = () => {
                   className="flex items-center gap-2"
                 >
                   <FaMotorcycle /> Active Riders
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard/assign-rider"
+                  className="flex items-center gap-2"
+                >
+                  <FaMotorcycle /> Assign Riders
                 </Link>
               </li>
               <li>
@@ -117,6 +128,36 @@ const DashboardLayout = () => {
                   className="flex items-center gap-2"
                 >
                   <FaUserClock /> Make Admin
+                </Link>
+              </li>
+            </>
+          )}
+
+          {/* Rider Routes */}
+          {!roleLoading && role === "rider" && (
+            <>
+              <li>
+                <Link
+                  to="/dashboard/pending-deliveries"
+                  className="flex items-center gap-2"
+                >
+                  <FaClock /> Pending Deliveries
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard/complete-deliveries"
+                  className="flex items-center gap-2"
+                >
+                  <FaCheckCircle /> Completed Deliveries
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/dashboard/my-earnings"
+                  className="flex items-center gap-2"
+                >
+                  <FaCheckCircle /> My Earnings
                 </Link>
               </li>
             </>

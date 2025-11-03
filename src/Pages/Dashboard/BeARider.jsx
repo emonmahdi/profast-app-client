@@ -10,9 +10,10 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 const BeARider = () => {
     const { user } = useAuth();
     const {
-        register,
-        handleSubmit, 
-        formState: { errors },
+      register,
+      handleSubmit,
+      formState: { errors },
+      reset,
     } = useForm();
 
     const [selectedRegion, setSelectedRegion] = useState("");
@@ -22,35 +23,32 @@ const BeARider = () => {
 
     const regions = [...new Set(serviceCenters.map((s) => s.region))];
     const districts = serviceCenters
-        .filter((s) => s.region === selectedRegion)
-        .map((s) => s.district);
+      .filter((s) => s.region === selectedRegion)
+      .map((s) => s.district);
 
     const onSubmit = async (data) => {
-        const riderData = {
-            ...data,
-            name: user?.displayName || "",
-            email: user?.email || "",
-            status: "pending",
-            created_at: new Date().toISOString(),
-        };
+      const riderData = {
+        ...data,
+        name: user?.displayName || "",
+        email: user?.email || "",
+        status: "pending",
+        created_at: new Date().toISOString(),
+      };
 
-        console.log("Rider Application:", riderData);
+      console.log("Rider Application:", riderData);
 
-        axiosSecure.post('/riders', riderData)
-            .then(res => {
-                if(res.data.insertedId){
-                    Swal.fire({
-                        icon: "success",
-                        title: "Application Submitted!",
-                        text: "Your application is pending approval.",
-                    });
-                }
-            })
+      axiosSecure.post("/riders", riderData).then((res) => {
+        if (res.data.insertedId) {
+          Swal.fire({
+            icon: "success",
+            title: "Application Submitted!",
+            text: "Your application is pending approval.",
+          });
+        }
+      });
 
-
-
-        // Send to your backend here
-        // reset();
+      // Send to your backend here
+      reset();
     };
 
     return (

@@ -73,12 +73,25 @@ const Navbar = () => {
       <div className="navbar-end">
         {user ? (
           <>
-            <button
-              onClick={handleLogout}
-              className="btn me-3  bg-red-500 text-white hover:bg-amber-50 hover:text-black"
-            >
-              LogOut
-            </button>
+            <div className="flex items-center gap-4 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-200">
+              <span className="text-gray-700 font-semibold text-lg flex items-center gap-2">
+                <img
+                  src={
+                    user?.photoURL ||
+                    "https://i.ibb.co/8z3ZxwL/default-avatar.png"
+                  }
+                  alt="User Avatar"
+                  className="w-8 h-8 rounded-full border border-gray-300"
+                />
+                {user?.displayName || "User"}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white font-medium hover:from-red-600 hover:to-red-700 transition-all duration-200 shadow-md hover:shadow-lg"
+              >
+                Log Out
+              </button>
+            </div>
           </>
         ) : (
           <>
